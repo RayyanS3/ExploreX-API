@@ -1,3 +1,7 @@
+const express = require('express');
+
+const userRouter = express.Router();
+
 //CRUD User functions
 const getAllUsers = (req, res) => {
   res.status(500).json({
