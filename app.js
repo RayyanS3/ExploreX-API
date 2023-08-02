@@ -1,7 +1,11 @@
+//NPM/Native modules init
 const express = require('express');
-const app = express();
 const fs = require('fs');
+const morgan = require('morgan');
+const app = express();
 
+//Middleware declerations
+app.use(morgan('dev'));
 app.use(express.json());
 
 //CRUD Tour functions
