@@ -1,6 +1,11 @@
 const express = require('express');
 
-const tourRouter = express.Router();
+const router = express.Router();
+
+//App functionality
+const toursData = JSON.parse(
+  fs.readFileSync(__dirname + '/dev-data/data/tours-simple.json')
+);
 
 //CRUD Tour functions
 const getAllTours = (req, res) => {
@@ -72,5 +77,8 @@ const deleteTour = (req, res) => {
 };
 
 //Route handlers
-tourRouter.route('/').get(getAllTours).post(addTour);
-tourRouter.route('/:id').get(getTour).patch(updateTour).delete(deleteTour);
+router.route('/').get(getAllTours).post(addTour);
+router.route('/:id').get(getTour).patch(updateTour).delete(deleteTour);
+
+//Export module
+module.exports = router;

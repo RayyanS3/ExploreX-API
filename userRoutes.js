@@ -1,6 +1,6 @@
 const express = require('express');
 
-const userRouter = express.Router();
+const router = express.Router();
 
 //CRUD User functions
 const getAllUsers = (req, res) => {
@@ -35,5 +35,8 @@ const deleteUser = (req, res) => {
 };
 
 //Route handlers
-userRouter.route('/').get(getAllUsers).post(addUser);
-userRouter.route('/:id').get(getUser).patch(updateUser).delete(deleteUser);
+router.route('/').get(getAllUsers).post(addUser);
+router.route('/:id').get(getUser).patch(updateUser).delete(deleteUser);
+
+//Export module
+module.exports = router;
