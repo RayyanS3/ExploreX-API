@@ -5,6 +5,10 @@ const fs = require('fs');
 const morgan = require('morgan');
 const app = express();
 
+//Router imports
+const tourRouter = require('./routes/tourRoutes');
+const userRouter = require('./routes/userRoutes');
+
 //Middleware declerations
 app.use(morgan('dev'));
 app.use(express.json());
