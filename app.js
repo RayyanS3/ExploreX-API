@@ -25,4 +25,16 @@ app.post('/api/v1/tours', (req, res) => {
   const newTour = Object.assign({ id: newId }, req.body);
 
   toursData.push(newTour);
+  fs.writeFile(
+    __dirname + '/dev-data/data/tours-simple.json',
+    JSON.stringify(toursData),
+    (err) => {
+      res.status(201).json({
+        status: 'Success',
+        data: {
+          tour: newTour,
+        },
+      });
+    }
+  );
 });
