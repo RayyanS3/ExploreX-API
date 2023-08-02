@@ -2,3 +2,4 @@ node_modules
 dev-data
 .prettierrc
 package*
+.eslintrc.json
