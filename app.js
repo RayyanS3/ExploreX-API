@@ -23,7 +23,12 @@ app.get('/api/v1/tours', (req, res) => {
 app.get('/api/v1/tours/:id', (req, res) => {
   const returnId = req.params.id * 1;
   const tour = toursData.find((el) => el.id === returnId);
-
+  if (returnId >= toursData.length) {
+    res.status(404).json({
+      status: 'Error',
+      message: `Tour with id = ${returnId} doesn't exist`,
+    });
+  }
   res.status(200).json({
     status: 'success',
     data: { tour },
