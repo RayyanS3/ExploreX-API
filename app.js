@@ -1,10 +1,19 @@
 const express = require('express');
 const app = express();
+const fs = require('fs');
+
+const toursData = JSON.parse(
+  fs.readFileSync(__dirname + '/dev-data/data/tours-simple.json')
+);
 
 app.listen(3000, () => {
   console.log('Server started on port 3000');
 });
 
-app.get('/', (req, res) => {
-  res.status(200).json({ message: 'Hello World', Author: 'Rayyan Suhail' });
+app.get('/api/v1/tours', (req, res) => {
+  res.status(200).json({
+    status: 'success',
+    results: toursData.length,
+    data: { toursData },
+  });
 });
