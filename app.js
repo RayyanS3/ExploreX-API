@@ -30,7 +30,7 @@ app.get('/api/v1/tours/:id', (req, res) => {
     });
   }
   res.status(200).json({
-    status: 'success',
+    status: 'Success',
     data: { tour },
   });
 });
@@ -52,4 +52,20 @@ app.post('/api/v1/tours', (req, res) => {
       });
     }
   );
+});
+
+app.patch('/api/v1/tours/:id', (req, res) => {
+  const returnId = req.params.id * 1;
+  if (returnId > toursData.length) {
+    res.status(404).json({
+      status: 'Fail',
+      message: 'Invalid ID',
+    });
+  }
+  res.status(200).json({
+    status: 'Success',
+    data: {
+      tour: '<UPDATED TOUR>',
+    },
+  });
 });
