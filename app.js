@@ -20,9 +20,3 @@ const toursData = JSON.parse(
 app.listen(3000, () => {
   console.log('Server started on port 3000');
 });
-
-//Routes
-
-userRouter.route('/').get(getAllUsers).post(addUser);
-
-userRouter.route('/:id').get(getUser).patch(updateUser).delete(deleteUser);

@@ -33,3 +33,7 @@ const deleteUser = (req, res) => {
     message: 'This route is not yet defined',
   });
 };
+
+//Route handlers
+userRouter.route('/').get(getAllUsers).post(addUser);
+userRouter.route('/:id').get(getUser).patch(updateUser).delete(deleteUser);
