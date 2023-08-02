@@ -1,10 +1,11 @@
 const express = require('express');
+const fs = require('fs');
 
 const router = express.Router();
 
 //App functionality
 const toursData = JSON.parse(
-  fs.readFileSync(__dirname + '/dev-data/data/tours-simple.json')
+  fs.readFileSync(__dirname + '/../dev-data/data/tours-simple.json')
 );
 
 //CRUD Tour functions
