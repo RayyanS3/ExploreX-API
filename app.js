@@ -25,12 +25,12 @@ app.get('/api/v1/tours/:id', (req, res) => {
   const tour = toursData.find((el) => el.id === returnId);
   if (!tour) {
     return res.status(404).json({
-      status: 'Error',
+      status: 'error',
       message: `Tour with id = ${returnId} doesn't exist`,
     });
   }
   res.status(200).json({
-    status: 'Success',
+    status: 'success',
     data: { tour },
   });
 });
@@ -58,14 +58,28 @@ app.patch('/api/v1/tours/:id', (req, res) => {
   const returnId = req.params.id * 1;
   if (returnId > toursData.length) {
     res.status(404).json({
-      status: 'Fail',
-      message: 'Invalid ID',
+      status: 'fail',
+      message: 'invalid ID',
     });
   }
   res.status(200).json({
-    status: 'Success',
+    status: 'success',
     data: {
       tour: '<UPDATED TOUR>',
     },
+  });
+});
+
+app.delete('/api/v1/tours/:id', (req, res) => {
+  const returnId = req.params.id * 1;
+  if (returnId > toursData.length) {
+    res.status(404).json({
+      status: 'fail',
+      message: 'invalid ID',
+    });
+  }
+  res.status(204).json({
+    status: 'success',
+    data: null,
   });
 });
