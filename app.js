@@ -20,6 +20,16 @@ app.get('/api/v1/tours', (req, res) => {
   });
 });
 
+app.get('/api/v1/tours/:id', (req, res) => {
+  const returnId = req.params.id * 1;
+  const tour = toursData.find((el) => el.id === returnId);
+
+  res.status(200).json({
+    status: 'success',
+    data: { tour },
+  });
+});
+
 app.post('/api/v1/tours', (req, res) => {
   const newId = toursData[toursData.length - 1].id + 1;
   const newTour = Object.assign({ id: newId }, req.body);
