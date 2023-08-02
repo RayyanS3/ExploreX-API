@@ -1,5 +1,7 @@
 const express = require('express');
 
+const tourRouter = express.Router();
+
 //CRUD Tour functions
 const getAllTours = (req, res) => {
   res.status(200).json({
