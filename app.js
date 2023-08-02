@@ -1,4 +1,5 @@
 //NPM/Native modules init
+const exp = require('constants');
 const express = require('express');
 const fs = require('fs');
 const morgan = require('morgan');
@@ -119,18 +120,16 @@ app.listen(3000, () => {
 });
 
 //Routes
-app.route('/api/v1/tours').get(getAllTours).post(addTour);
+const tourRouter = express.Router();
+const userRouter = express.Router();
 
-app
-  .route('/api/v1/tours/:id')
-  .get(getTour)
-  .patch(updateTour)
-  .delete(deleteTour);
+app.use('/api/v1/tours', tourRouter);
+app.use('/api/v1/users', userRouter);
 
-app.route('/api/v1/users').get(getAllUsers).post(addUser);
+tourRouter.route('/').get(getAllTours).post(addTour);
 
-app
-  .route('/api/v1/users/:id')
-  .get(getUser)
-  .patch(updateUser)
-  .delete(deleteUser);
+tourRouter.route('/:id').get(getTour).patch(updateTour).delete(deleteTour);
+
+userRouter.route('/').get(getAllUsers).post(addUser);
+
+userRouter.route('/:id').get(getUser).patch(updateUser).delete(deleteUser);
