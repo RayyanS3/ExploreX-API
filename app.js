@@ -2,6 +2,8 @@ const express = require('express');
 const app = express();
 const fs = require('fs');
 
+app.use(express.json());
+
 const toursData = JSON.parse(
   fs.readFileSync(__dirname + '/dev-data/data/tours-simple.json')
 );
@@ -17,3 +19,5 @@ app.get('/api/v1/tours', (req, res) => {
     data: { toursData },
   });
 });
+
+app.post('/api/v1/tours', (req, res) => {});
