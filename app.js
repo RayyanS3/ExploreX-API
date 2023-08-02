@@ -9,6 +9,11 @@ const app = express();
 app.use(morgan('dev'));
 app.use(express.json());
 
+const tourRouter = express.Router();
+const userRouter = express.Router();
+app.use('/api/v1/tours', tourRouter);
+app.use('/api/v1/users', userRouter);
+
 //CRUD Tour functions
 const getAllTours = (req, res) => {
   res.status(200).json({
@@ -120,12 +125,6 @@ app.listen(3000, () => {
 });
 
 //Routes
-const tourRouter = express.Router();
-const userRouter = express.Router();
-
-app.use('/api/v1/tours', tourRouter);
-app.use('/api/v1/users', userRouter);
-
 tourRouter.route('/').get(getAllTours).post(addTour);
 
 tourRouter.route('/:id').get(getTour).patch(updateTour).delete(deleteTour);
