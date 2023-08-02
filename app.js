@@ -16,7 +16,6 @@ const getAllTours = (req, res) => {
     data: { toursData },
   });
 };
-
 const getTour = (req, res) => {
   const returnId = req.params.id * 1;
   const tour = toursData.find((el) => el.id === returnId);
@@ -31,7 +30,6 @@ const getTour = (req, res) => {
     data: { tour },
   });
 };
-
 const addTour = (req, res) => {
   const newId = toursData[toursData.length - 1].id + 1;
   const newTour = Object.assign({ id: newId }, req.body);
@@ -50,7 +48,6 @@ const addTour = (req, res) => {
     }
   );
 };
-
 const updateTour = (req, res) => {
   const returnId = req.params.id * 1;
   if (returnId > toursData.length) {
@@ -66,7 +63,6 @@ const updateTour = (req, res) => {
     },
   });
 };
-
 const deleteTour = (req, res) => {
   const returnId = req.params.id * 1;
   if (returnId > toursData.length) {
@@ -78,6 +74,38 @@ const deleteTour = (req, res) => {
   res.status(204).json({
     status: 'success',
     data: null,
+  });
+};
+
+//CRUD User functions
+const getAllUsers = (req, res) => {
+  res.status(500).json({
+    status: 'error',
+    message: 'This route is not yet defined',
+  });
+};
+const addUser = (req, res) => {
+  res.status(500).json({
+    status: 'error',
+    message: 'This route is not yet defined',
+  });
+};
+const getUser = (req, res) => {
+  res.status(500).json({
+    status: 'error',
+    message: 'This route is not yet defined',
+  });
+};
+const updateUser = (req, res) => {
+  res.status(500).json({
+    status: 'error',
+    message: 'This route is not yet defined',
+  });
+};
+const deleteUser = (req, res) => {
+  res.status(500).json({
+    status: 'error',
+    message: 'This route is not yet defined',
   });
 };
 
