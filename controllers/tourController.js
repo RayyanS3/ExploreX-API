@@ -4,6 +4,28 @@ const toursData = JSON.parse(
   fs.readFileSync(__dirname + '/../dev-data/data/tours-simple.json')
 );
 
+//Param middlewares
+exports.checkId = (req, res, next, val) => {
+  if (val > toursData.length) {
+    return res.status(404).json({
+      status: 'fail',
+      message: 'invalid ID',
+    });
+  }
+
+  next();
+};
+
+exports.checkBody = (req, res, next) => {
+  if (!req.body.name || !req.body.price) {
+    return res.status(400).json({
+      status: 'fail',
+      message: 'No valid name and/or price',
+    });
+  }
+  next();
+};
+
 //Controller functions
 exports.getAllTours = (req, res) => {
   res.status(200).json({
@@ -51,26 +73,4 @@ exports.deleteTour = (req, res) => {
     status: 'success',
     data: null,
   });
-};
-
-//Param middlewares
-exports.checkId = (req, res, next, val) => {
-  if (val > toursData.length) {
-    return res.status(404).json({
-      status: 'fail',
-      message: 'invalid ID',
-    });
-  }
-
-  next();
-};
-
-exports.checkBody = (req, res, next, val) => {
-  if (!req.body.name || !req.body.price) {
-    return res.status(400).json({
-      status: 'fail',
-      message: 'No valid name and/or price',
-    });
-  }
-  next();
 };
