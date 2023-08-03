@@ -1,10 +1,9 @@
-//NPM/Native modules init
-const exp = require('constants');
+//NPM/Native modules import
 const express = require('express');
 const morgan = require('morgan');
 const app = express();
 
-//Router imports
+//Router import
 const tourRouter = require('./routes/tourRoutes');
 const userRouter = require('./routes/userRoutes');
 
@@ -13,8 +12,3 @@ app.use(morgan('dev'));
 app.use(express.json());
 app.use('/api/v1/tours', tourRouter);
 app.use('/api/v1/users', userRouter);
-
-//Server start
-app.listen(3000, () => {
-  console.log('Server started on port 3000');
-});
