@@ -14,12 +14,6 @@ exports.getAllTours = (req, res) => {
 exports.getTour = (req, res) => {
   const returnId = req.params.id * 1;
   const tour = toursData.find((el) => el.id === returnId);
-  if (!tour) {
-    return res.status(404).json({
-      status: 'error',
-      message: `Tour with id = ${returnId} doesn't exist`,
-    });
-  }
   res.status(200).json({
     status: 'success',
     data: { tour },
@@ -44,13 +38,6 @@ exports.addTour = (req, res) => {
   );
 };
 exports.updateTour = (req, res) => {
-  const returnId = req.params.id * 1;
-  if (returnId > toursData.length) {
-    res.status(404).json({
-      status: 'fail',
-      message: 'invalid ID',
-    });
-  }
   res.status(200).json({
     status: 'success',
     data: {
@@ -59,15 +46,20 @@ exports.updateTour = (req, res) => {
   });
 };
 exports.deleteTour = (req, res) => {
-  const returnId = req.params.id * 1;
-  if (returnId > toursData.length) {
-    res.status(404).json({
-      status: 'fail',
-      message: 'invalid ID',
-    });
-  }
   res.status(204).json({
     status: 'success',
     data: null,
   });
+};
+
+//Param middleware
+exports.checkId = (req, res, next, val) => {
+  if (val > toursData.length) {
+    return res.status(404).json({
+      status: 'fail',
+      message: 'invalid ID',
+    });
+  }
+
+  next();
 };
