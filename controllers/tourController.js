@@ -1,4 +1,5 @@
 const fs = require('fs');
+const { CLIENT_RENEG_LIMIT } = require('tls');
 const toursData = JSON.parse(
   fs.readFileSync(__dirname + '/../dev-data/data/tours-simple.json')
 );
@@ -52,7 +53,7 @@ exports.deleteTour = (req, res) => {
   });
 };
 
-//Param middleware
+//Param middlewares
 exports.checkId = (req, res, next, val) => {
   if (val > toursData.length) {
     return res.status(404).json({
@@ -61,5 +62,15 @@ exports.checkId = (req, res, next, val) => {
     });
   }
 
+  next();
+};
+
+exports.checkBody = (req, res, next, val) => {
+  if (!req.body.name || !req.body.price) {
+    return res.status(400).json({
+      status: 'fail',
+      message: 'No valid name and/or price',
+    });
+  }
   next();
 };
