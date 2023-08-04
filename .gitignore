@@ -3,3 +3,4 @@ dev-data
 .prettierrc
 package*
 .eslintrc.json
+config.env
