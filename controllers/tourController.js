@@ -1,10 +1,10 @@
 const fs = require('fs');
-const { CLIENT_RENEG_LIMIT } = require('tls');
+
 const toursData = JSON.parse(
-  fs.readFileSync(__dirname + '/../dev-data/data/tours-simple.json')
+  fs.readFileSync(`${__dirname}/../dev-data/data/tours-simple.json`),
 );
 
-//Param middlewares
+// Param middlewares
 exports.checkId = (req, res, next, val) => {
   if (val > toursData.length) {
     return res.status(404).json({
@@ -26,7 +26,7 @@ exports.checkBody = (req, res, next) => {
   next();
 };
 
-//Controller functions
+// Controller functions
 exports.getAllTours = (req, res) => {
   res.status(200).json({
     status: 'success',
@@ -48,16 +48,16 @@ exports.addTour = (req, res) => {
 
   toursData.push(newTour);
   fs.writeFile(
-    __dirname + '/dev-data/data/tours-simple.json',
+    `${__dirname}/dev-data/data/tours-simple.json`,
     JSON.stringify(toursData),
-    (err) => {
+    () => {
       res.status(201).json({
         status: 'Success',
         data: {
           tour: newTour,
         },
       });
-    }
+    },
   );
 };
 exports.updateTour = (req, res) => {
