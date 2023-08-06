@@ -11,7 +11,7 @@ const DB = process.env.DATABASE_PATH.replace(
 mongoose.connect(DB, {
   useNewUrlParser: true,
   useCreateIndex: true,
-  useFindAndModify: true,
+  useFindAndModify: false,
 });
 
 const app = require('./app');
