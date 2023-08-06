@@ -12,7 +12,10 @@ mongoose.connect(DB, {
   useNewUrlParser: true,
   useCreateIndex: true,
   useFindAndModify: false,
-});
+}).then(con => {
+  console.log(con.connection);
+  console.log("DB CONNECTION SUCCESSFUL");
+};);
 
 const app = require('./app');
 // Server start
