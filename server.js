@@ -1,5 +1,6 @@
 const dotenv = require('dotenv');
 const mongoose = require('mongoose');
+const app = require('./app');
 
 dotenv.config({ path: './config.env' });
 
@@ -16,9 +17,23 @@ mongoose
   })
   .then(() => console.log('DB CONNECTION SUCCESSFUL'));
 
-const app = require('./app');
-// Server start
+const tourSchema = mongoose.Schema({
+  name: {
+    type: String,
+    required: [true, 'Tour must have name'],
+    unique: true,
+  },
+  rating: {
+    type: Number,
+    deafult: 4.5,
+  },
+  price: {
+    type: Number,
+    required: [true, 'Tour must have price'],
+  },
+});
 
+// Server start
 const port = 3000 || process.env.PORT;
 app.listen(port, () => {
   console.log('Server started on port 3000');
