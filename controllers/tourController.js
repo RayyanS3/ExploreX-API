@@ -1,8 +1,5 @@
 const fs = require('fs');
-
-const toursData = JSON.parse(
-  fs.readFileSync(`${__dirname}/../dev-data/data/tours-simple.json`),
-);
+const Tour = require('../models/tourModel');
 
 // Param middlewares
 exports.checkId = (req, res, next, val) => {
