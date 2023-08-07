@@ -40,6 +40,16 @@ const testTour = new Tour({
   price: 667,
   rating: 4.9,
 });
+
+testTour
+  .save()
+  .then((doc) => {
+    console.log(doc);
+  })
+  .catch((err) => {
+    console.log('ERROR: ', err);
+  });
+
 // Server start
 const port = 3000 || process.env.PORT;
 app.listen(port, () => {
