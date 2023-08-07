@@ -17,39 +17,6 @@ mongoose
   })
   .then(() => console.log('DB CONNECTION SUCCESSFUL'));
 
-const tourSchema = mongoose.Schema({
-  name: {
-    type: String,
-    required: [true, 'Tour must have name'],
-    unique: true,
-  },
-  rating: {
-    type: Number,
-    deafult: 4.5,
-  },
-  price: {
-    type: Number,
-    required: [true, 'Tour must have price'],
-  },
-});
-
-const Tour = mongoose.model('Tour', tourSchema);
-
-const testTour = new Tour({
-  name: 'The Desert Adventure',
-  price: 667,
-  rating: 4.9,
-});
-
-testTour
-  .save()
-  .then((doc) => {
-    console.log(doc);
-  })
-  .catch((err) => {
-    console.log('ERROR: ', err);
-  });
-
 // Server start
 const port = 3000 || process.env.PORT;
 app.listen(port, () => {
