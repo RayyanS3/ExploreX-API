@@ -8,7 +8,7 @@ const tourSchema = mongoose.Schema({
   },
   rating: {
     type: Number,
-    deafult: 4.5,
+    default: 4.5,
   },
   price: {
     type: Number,
