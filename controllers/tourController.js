@@ -16,11 +16,13 @@ exports.getTour = (req, res) => {
   //   data: { tour },
   // });
 };
-exports.addTour = (req, res) => {
+exports.addTour = async (req, res) => {
+  const newTour = await Tour.create(req.body);
+
   res.status(201).json({
     status: 'Success',
     data: {
-      // tour: newTour,
+      tour: newTour,
     },
   });
 };
