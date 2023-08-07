@@ -35,6 +35,11 @@ const tourSchema = mongoose.Schema({
 
 const Tour = mongoose.model('Tour', tourSchema);
 
+const testTour = new Tour({
+  name: 'The Desert Adventure',
+  price: 667,
+  rating: 4.9,
+});
 // Server start
 const port = 3000 || process.env.PORT;
 app.listen(port, () => {
