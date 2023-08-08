@@ -28,19 +28,20 @@ class APIFeatures {
 
     this.query.find(JSON.parse(queryStr));
   }
+
+  sort() {
+    if (this.queryString.sort) {
+      const sortBy = this.queryString.sort.split(',').join(' ');
+      this.query = this.query.sort(sortBy);
+    } else {
+      this.query = this.query.sort('-createdAt');
+    }
+  }
 }
 
 // Controller functions
 exports.getAllTours = async (req, res) => {
   try {
-    // Sorting
-    if (req.query.sort) {
-      const sortBy = req.query.sort.split(',').join(' ');
-      query = query.sort(sortBy);
-    } else {
-      query = query.sort('-createdAt');
-    }
-
     // Selective fields
     if (req.query.fields) {
       const fields = req.query.fields.split(',').join(' ');
