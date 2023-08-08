@@ -8,6 +8,7 @@
         "endOfLine": "auto"
       }
     ],
+    "no-unused-vars": "warn",
     "endOfLine": "off",
     "no-console": "warn",
     "consistent-return": "off",

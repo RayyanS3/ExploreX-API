@@ -3,6 +3,10 @@ const Tour = require('../models/tourModel');
 // Controller functions
 exports.getAllTours = async (req, res) => {
   try {
+    const queryObj = { ...req.query };
+    const excludedFields = ['page', 'sort', 'fields', 'limit'];
+    excludedFields.forEach((el) => delete queryObj[el]);
+
     const allTours = await Tour.find(req.query);
 
     res.status(200).json({
