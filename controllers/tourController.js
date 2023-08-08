@@ -27,6 +27,8 @@ class APIFeatures {
     queryStr = queryStr.replace(/\b(gte|gt|lte|lt)\b/g, (match) => `$${match}`);
 
     this.query.find(JSON.parse(queryStr));
+
+    return this;
   }
 
   sort() {
@@ -36,6 +38,8 @@ class APIFeatures {
     } else {
       this.query = this.query.sort('-createdAt');
     }
+
+    return this;
   }
 }
 
@@ -65,7 +69,7 @@ exports.getAllTours = async (req, res) => {
     }
 
     // Executing query
-    const features = new APIFeatures(Tour.find(), req.query).filter();
+    const features = new APIFeatures(Tour.find(), req.query).filter().sort();
     const allTours = await features.query;
 
     res.status(200).json({
