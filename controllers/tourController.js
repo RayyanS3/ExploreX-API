@@ -50,27 +50,26 @@ class APIFeatures {
       this.query = this.query.select('-__v -_id');
     }
   }
+
+  paginate() {
+    // Pagination
+    const page = this.queryString.page * 1 || 1;
+    const limit = this.queryString.limit * 1 || 100;
+    const skip = (page - 1) * limit;
+
+    this.query = this.query.skip(skip).limit(limit);
+  }
 }
 
 // Controller functions
 exports.getAllTours = async (req, res) => {
   try {
-    // Pagination
-    const page = req.query.page * 1 || 1;
-    const limit = req.query.limit * 1 || 100;
-    const skip = (page - 1) * limit;
-
-    query = query.skip(skip).limit(limit);
-
-    if (req.query.page) {
-      const numTours = await Tour.countDocuments();
-      if (skip >= numTours) {
-        throw new Error('This page does not exist');
-      }
-    }
-
     // Executing query
-    const features = new APIFeatures(Tour.find(), req.query).filter().sort();
+    const features = new APIFeatures(Tour.find(), req.query)
+      .filter()
+      .sort()
+      .limitFields()
+      .paginate();
     const allTours = await features.query;
 
     res.status(200).json({
