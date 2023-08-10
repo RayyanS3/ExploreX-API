@@ -141,3 +141,25 @@ exports.getToursStats = async (req, res) => {
     });
   }
 };
+
+exports.getMonthlyPlans = async (req, res) => {
+  try {
+    const year = req.params.year;
+
+    const plan = await Tour.aggregate([]);
+
+    res.status(200).json({
+      status: 'success',
+      year: year,
+      data: {
+        plan,
+      },
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(400).json({
+      status: 'fail',
+      message: error,
+    });
+  }
+};
