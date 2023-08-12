@@ -90,7 +90,7 @@ tourSchema.pre(/^find/, function (next) {
 
 // Aggregate middleware
 tourSchema.pre('aggregate', function (next) {
-  console.log(this.pipeline());
+  this.pipeline().unshift({ $match: { privateTour: { $ne: true } } });
   next();
 });
 
