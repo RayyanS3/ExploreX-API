@@ -60,11 +60,16 @@ const tourSchema = mongoose.Schema(
   },
 );
 
+// Virtual weekly duration property
 tourSchema.virtual('weeklyDuration').get(function () {
   const duration = this.duration / 7;
   return duration.toFixed(3);
 });
 
-const Tour = mongoose.model('Tour', tourSchema);
+// Document middleware
+tourSchema.pre('save', function () {
+  console.log(this);
+});
 
+const Tour = mongoose.model('Tour', tourSchema);
 module.exports = Tour;
