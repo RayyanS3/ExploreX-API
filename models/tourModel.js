@@ -58,6 +58,10 @@ const tourSchema = mongoose.Schema(
       select: false,
     },
     startDates: [Date],
+    privateTour: {
+      type: Boolean,
+      default: false,
+    },
   },
   {
     toJSON: { virtuals: true },
@@ -80,7 +84,7 @@ tourSchema.pre('save', function (next) {
 
 // Query middleware
 tourSchema.pre('find', function (next) {
-  console.log(this);
+  this.find({ privateTour: { $ne: true } });
   next();
 });
 
