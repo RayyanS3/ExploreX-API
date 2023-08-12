@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const slugify = require('slugify');
+// const validator = require('validator');
 
 const tourSchema = mongoose.Schema(
   {
@@ -10,6 +11,7 @@ const tourSchema = mongoose.Schema(
       trim: true,
       maxlength: [40, 'Tour must have less than 40 chars'],
       minlength: [10, 'Tour must have more than 10 chars'],
+      // validate: [validator.isAlpha, 'Name must contain only letters'],
     },
     slug: {
       type: String,
