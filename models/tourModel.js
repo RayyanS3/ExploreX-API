@@ -78,5 +78,11 @@ tourSchema.pre('save', function (next) {
   next();
 });
 
+// Query middleware
+tourSchema.pre('find', function (next) {
+  console.log(this);
+  next();
+});
+
 const Tour = mongoose.model('Tour', tourSchema);
 module.exports = Tour;
