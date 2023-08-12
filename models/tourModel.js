@@ -83,7 +83,7 @@ tourSchema.pre('save', function (next) {
 });
 
 // Query middleware
-tourSchema.pre('find', function (next) {
+tourSchema.pre(/^find/, function (next) {
   this.find({ privateTour: { $ne: true } });
   next();
 });
