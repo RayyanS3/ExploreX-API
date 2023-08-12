@@ -9,6 +9,10 @@ const tourSchema = mongoose.Schema(
       unique: true,
       trim: true,
     },
+    slug: {
+      type: String,
+      trim: true,
+    },
     duration: {
       type: Number,
       required: [true, 'Tour must have duration'],
@@ -68,8 +72,10 @@ tourSchema.virtual('weeklyDuration').get(function () {
 });
 
 // Document middleware
-tourSchema.pre('save', function () {
-  console.log(this);
+tourSchema.pre('save', function (next) {
+  this.slug = slugify(this.name, { lower: true });
+  console.log(this.slug);
+  next();
 });
 
 const Tour = mongoose.model('Tour', tourSchema);
