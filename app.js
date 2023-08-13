@@ -18,5 +18,14 @@ app.use(express.static('public'));
 app.use('/api/v1/tours', tourRouter);
 app.use('/api/v1/users', userRouter);
 
+// Error handling all other routes - middleware
+app.all('*', (req, res, next) => {
+  res.status(404).json({
+    status: 'fail',
+    message: `Route to ${req.originalUrl} does not exist on server`,
+  });
+  next();
+});
+
 // Express app export
 module.exports = app;
