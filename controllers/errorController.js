@@ -11,7 +11,9 @@ const handleDupNameDB = (err) => {
 };
 
 const handleValidationError = (err) => {
-  return new AppError('Validation failed', 400);
+  const errorMessages = Object.values(err.errors).map((el) => el.message);
+  const message = `Invalid data input: ${errorMessages.join(' || ')}`;
+  return new AppError(message, 400);
 };
 
 const getErrorDev = (err, res) => {
@@ -58,7 +60,6 @@ module.exports = (err, req, res, next) => {
     // Validation error for patch request
     if (errorCopy._message === 'Validation failed') {
       errorCopy = handleValidationError(errorCopy);
-      console.log('VALIDATION DETECTED');
     }
     getErrorProd(errorCopy, res);
   }
