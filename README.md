@@ -1,1 +1,1 @@
-# Natours
+# Globe Trotter Tours
