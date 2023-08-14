@@ -5,6 +5,11 @@ const handleCastErrorDB = (err) => {
   return new AppError(message, 400);
 };
 
+const handleDupNameDB = (err) => {
+  const message = `Tour name already used: ${err.keyValue.name}`;
+  return new AppError(message, 400);
+};
+
 const getErrorDev = (err, res) => {
   res.status(err.statusCode).json({
     status: err.status,
@@ -21,7 +26,7 @@ const getErrorProd = (err, res) => {
       message: err.message,
     });
   } else {
-    // console.log(err);
+    console.log(err);
     res.status(500).json({
       status: 'error',
     });
@@ -36,8 +41,15 @@ module.exports = (err, req, res, next) => {
     getErrorDev(err, res);
   } else if (process.env.NODE_ENV === 'production') {
     let errorCopy = { ...err };
+
+    // Cast errors - invalid id
     if (errorCopy.kind === 'ObjectId') {
       errorCopy = handleCastErrorDB(errorCopy);
+    }
+
+    // Duplicate tour name error
+    if (errorCopy.code === 11000) {
+      errorCopy = handleDupNameDB(errorCopy);
     }
     getErrorProd(errorCopy, res);
   }
