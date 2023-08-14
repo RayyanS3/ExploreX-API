@@ -23,6 +23,10 @@ const userSchema = mongoose.Schema({
   passwordConfirm: {
     type: String,
     required: [true, 'Please provide a password'],
+    validate: function (el) {
+      return el === this.password;
+    },
+    message: 'The passwords do not match',
   },
 });
 
