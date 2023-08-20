@@ -25,6 +25,10 @@ const getErrorDev = (err, res) => {
   });
 };
 
+const jwtTokenErrorHandler = (err) => {
+  return new AppError('Invalid token, please try logging in again', 401);
+};
+
 const getErrorProd = (err, res) => {
   if (err.isOperational) {
     res.status(err.statusCode).json({
@@ -60,6 +64,10 @@ module.exports = (err, req, res, next) => {
     // Validation error for patch request
     if (errorCopy._message === 'Validation failed') {
       errorCopy = handleValidationError(errorCopy);
+    }
+
+    if (errorCopy.message === 'jwt malformed') {
+      errorCopy = jwtTokenErrorHandler(errorCopy);
     }
     getErrorProd(errorCopy, res);
   }
