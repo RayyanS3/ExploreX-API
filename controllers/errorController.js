@@ -29,6 +29,10 @@ const jwtTokenErrorHandler = (err) => {
   return new AppError('Invalid token, please try logging in again', 401);
 };
 
+const jwtExpiredErrorHandler = (err) => {
+  return new AppError('Expired token, please try logging in again', 401);
+};
+
 const getErrorProd = (err, res) => {
   if (err.isOperational) {
     res.status(err.statusCode).json({
@@ -68,6 +72,10 @@ module.exports = (err, req, res, next) => {
 
     if (errorCopy.message === 'jwt malformed') {
       errorCopy = jwtTokenErrorHandler(errorCopy);
+    }
+
+    if (errorCopy.message === 'jwt expired') {
+      errorCopy = jwtExpiredErrorHandler(errorCopy);
     }
     getErrorProd(errorCopy, res);
   }
