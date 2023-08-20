@@ -1,7 +1,14 @@
 const jwt = require('jsonwebtoken');
-const User = require('../models/userModel');
+const bcrypt = require('bcrypt');
 const catchAsync = require('../utils/catchAsync');
 const AppError = require('../utils/appError');
+const User = require('../models/userModel');
+
+const signToken = (id) => {
+  return jwt.sign({ id }, process.env.JWT_SECRET, {
+    expiresIn: process.env.JWT_EXPIRY,
+  });
+};
 
 exports.signup = catchAsync(async (req, res, next) => {
   const newUser = await User.create({
@@ -11,9 +18,7 @@ exports.signup = catchAsync(async (req, res, next) => {
     passwordConfirm: req.body.passwordConfirm,
   });
 
-  const token = jwt.sign({ id: newUser._id }, process.env.JWT_SECRET, {
-    expiresIn: process.env.JWT_EXPIRY,
-  });
+  const token = signToken(newUser.id);
 
   res.status(201).json({
     status: 'success',
@@ -29,17 +34,16 @@ exports.login = catchAsync(async (req, res, next) => {
 
   // Check if email and password exist
   if (!email || !password) {
-    return new AppError('Please provide a valid email and password', 400);
+    return next(new AppError('Please provide a valid email and password', 400));
   }
   // Check if they are correct
   const user = await User.findOne({ email }).select('+password');
-  const isCorrect = await user.correctPass(user.password, password);
 
-  if (!user || !isCorrect) {
-    return new AppError('Incorrect email or password', 401);
+  if (!user || !(await user.correctPass(user.password, password))) {
+    return next(new AppError('Incorrect email or password', 401));
   }
   // Send response back
-  const token = '';
+  const token = signToken(user.id);
   res.status(200).json({
     status: 'success',
     token,
