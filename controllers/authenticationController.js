@@ -1,3 +1,4 @@
+const { promisify } = require('util');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 const catchAsync = require('../utils/catchAsync');
@@ -64,5 +65,10 @@ exports.protect = catchAsync(async (req, res, next) => {
     );
   }
 
+  // Verifying token
+  const decodedToken = await promisify(jwt.verify)(
+    token,
+    process.env.JWT_SECRET,
+  );
   next();
 });
