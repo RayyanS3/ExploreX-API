@@ -33,7 +33,11 @@ exports.login = catchAsync(async (req, res, next) => {
   }
   // Check if they are correct
   const user = await User.findOne({ email }).select('+password');
+  const isCorrect = await user.correctPass(user.password, password);
 
+  if (!user || !isCorrect) {
+    return new AppError('Incorrect email or password', 401);
+  }
   // Send response back
   const token = '';
   res.status(200).json({
