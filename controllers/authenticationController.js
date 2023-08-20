@@ -51,5 +51,18 @@ exports.login = catchAsync(async (req, res, next) => {
 });
 
 exports.protect = catchAsync(async (req, res, next) => {
+  // Get token and check it exists
+  let token;
+  const authHeaders = req.headers.authorization;
+  if (authHeaders && authHeaders.startsWith('Bearer')) {
+    token = authHeaders.split(' ')[1];
+  }
+  console.log(token);
+  if (!token) {
+    return next(
+      new AppError('You are not logged in, please do so to continue', 401),
+    );
+  }
+
   next();
 });

@@ -27,7 +27,7 @@ app.all('*', (req, res, next) => {
   );
 });
 
-// Global error hndling middleware
+// Global error handling middleware
 app.use(globalErrorHandler);
 
 // Express app export
