@@ -25,11 +25,11 @@ const getErrorDev = (err, res) => {
   });
 };
 
-const jwtTokenErrorHandler = (err) => {
+const jwtTokenErrorHandler = () => {
   return new AppError('Invalid token, please try logging in again', 401);
 };
 
-const jwtExpiredErrorHandler = (err) => {
+const jwtExpiredErrorHandler = () => {
   return new AppError('Expired token, please try logging in again', 401);
 };
 
@@ -71,11 +71,11 @@ module.exports = (err, req, res, next) => {
     }
 
     if (errorCopy.message === 'jwt malformed') {
-      errorCopy = jwtTokenErrorHandler(errorCopy);
+      errorCopy = jwtTokenErrorHandler();
     }
 
     if (errorCopy.message === 'jwt expired') {
-      errorCopy = jwtExpiredErrorHandler(errorCopy);
+      errorCopy = jwtExpiredErrorHandler();
     }
     getErrorProd(errorCopy, res);
   }

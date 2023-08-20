@@ -70,5 +70,12 @@ exports.protect = catchAsync(async (req, res, next) => {
     token,
     process.env.JWT_SECRET,
   );
+
+  // Check if user exists
+  const user = await User.findById(decodedToken.id);
+  if (!user) {
+    return next(new AppError('The user for this token no longer exists', 401));
+  }
+
   next();
 });
