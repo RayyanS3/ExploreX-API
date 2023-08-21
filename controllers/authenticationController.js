@@ -92,6 +92,14 @@ exports.restrictTo = (...roles) => {
   };
 };
 
-exports.forgotPassword = (req, res, next) => {};
+exports.forgotPassword = catchAsync(async (req, res, next) => {
+  // Get user and check if exists
+  const user = User.findOne({ email: req.body.email });
+  if (!user) {
+    return next(
+      new AppError(`No existing user with this email: ${req.body.email}`, 401),
+    );
+  }
+});
 
-exports.resetPassword = (req, res, next) => {};
+exports.resetPassword = catchAsync(async (req, res, next) => {});
