@@ -94,12 +94,19 @@ exports.restrictTo = (...roles) => {
 
 exports.forgotPassword = catchAsync(async (req, res, next) => {
   // Get user and check if exists
-  const user = User.findOne({ email: req.body.email });
-  if (!user) {
-    return next(
-      new AppError(`No existing user with this email: ${req.body.email}`, 401),
-    );
+  const currentUser = await User.findOne({ email: req.body.email });
+  console.log(currentUser);
+  if (!currentUser) {
+    return next(new AppError('No existing user with this email', 404));
   }
+
+  const resetToken = currentUser.createPassResetToken();
+  await currentUser.save({ validateBeforeSave: false });
+  next();
 });
 
-exports.resetPassword = catchAsync(async (req, res, next) => {});
+exports.resetPassword = catchAsync(async (req, res, next) => {
+  console.log(req.body.email);
+
+  next();
+});
