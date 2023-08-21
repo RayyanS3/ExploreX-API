@@ -4,6 +4,7 @@ const catchAsync = require('../utils/catchAsync');
 const AppError = require('../utils/appError');
 const User = require('../models/userModel');
 const emailSender = require('../utils/email');
+const sendEmail = require('../utils/email');
 
 const signToken = (id) => {
   return jwt.sign({ id }, process.env.JWT_SECRET, {
@@ -95,18 +96,32 @@ exports.restrictTo = (...roles) => {
 
 exports.forgotPassword = catchAsync(async (req, res, next) => {
   // Get user and check if exists
-  const currentUser = await User.findOne({ email: req.body.email });
-  console.log(currentUser);
-  if (!currentUser) {
+  const user = await User.findOne({ email: req.body.email });
+  console.log(user);
+  if (!user) {
     return next(new AppError('No existing user with this email', 404));
   }
 
-  const resetToken = currentUser.createPassResetToken();
-  await currentUser.save({ validateBeforeSave: false });
+  const resetToken = user.createPassResetToken();
+  await user.save({ validateBeforeSave: false });
 
   const resetURL = `${req.protocol}://${req.get(
     'host',
   )}/api/v1/users/resetPassword/${resetToken}`;
+
+  const message = `Please use the following link to reset your password ${resetURL}, if you did not request for  password change then ignore this email.`;
+
+  await sendEmail({
+    email: user.email,
+    subject: 'Password reset token (Valid 10 min)',
+    message,
+  });
+
+  res.status(200).json({
+    status: 'success',
+    message: `Token sent to email: ${user.email}`,
+  });
+
   next();
 });
 
