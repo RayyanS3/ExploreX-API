@@ -97,7 +97,6 @@ exports.restrictTo = (...roles) => {
 exports.forgotPassword = catchAsync(async (req, res, next) => {
   // Get user and check if exists
   const user = await User.findOne({ email: req.body.email });
-  console.log(user);
   if (!user) {
     return next(new AppError('No existing user with this email', 404));
   }
@@ -111,16 +110,30 @@ exports.forgotPassword = catchAsync(async (req, res, next) => {
 
   const message = `Please use the following link to reset your password ${resetURL}, if you did not request for  password change then ignore this email.`;
 
-  await sendEmail({
-    email: user.email,
-    subject: 'Password reset token (Valid 10 min)',
-    message,
-  });
+  try {
+    await sendEmail({
+      email: user.email,
+      subject: 'Password reset token (Valid 10 min)',
+      message,
+    });
 
-  res.status(200).json({
-    status: 'success',
-    message: `Token sent to email: ${user.email}`,
-  });
+    res.status(200).json({
+      status: 'success',
+      message: `Token sent to email: ${user.email}`,
+    });
+  } catch (error) {
+    console.log(error);
+    user.passwordResetToken = undefined;
+    user.passwordResetExpiry = undefined;
+    await user.save({ validateBeforeSave: false });
+
+    return next(
+      new AppError(
+        'There was an error sending the email. Please try again later',
+        500,
+      ),
+    );
+  }
 
   next();
 });
