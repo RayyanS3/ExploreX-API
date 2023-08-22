@@ -52,7 +52,7 @@ userSchema.methods.correctPass = async function (userPass, DBPass) {
   return await bcrypt.compare(DBPass, userPass);
 };
 
-userSchema.methods.createPassResetToken = async function () {
+userSchema.methods.createPasswordResetToken = function () {
   const resetToken = crypto.randomBytes(32).toString('hex');
 
   this.passwordResetToken = crypto
@@ -60,7 +60,9 @@ userSchema.methods.createPassResetToken = async function () {
     .update(resetToken)
     .digest('hex');
 
-  this.passwordResetExpiry = Date.now() + 10 * 60 * 1000;
+  console.log({ resetToken }, this.passwordResetToken);
+
+  this.passwordResetExpires = Date.now() + 10 * 60 * 1000;
 
   return resetToken;
 };
