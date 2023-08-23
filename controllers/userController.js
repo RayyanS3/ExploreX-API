@@ -2,6 +2,15 @@ const User = require('../models/userModel');
 const AppError = require('../utils/appError');
 const catchAsync = require('../utils/catchAsync');
 
+const filterObj = (bodyObject, ...allowedFields) => {
+  const newObj = {};
+
+  Object.keys(bodyObject).forEach((el) => {
+    if (allowedFields.includes(el)) newObj[el] = bodyObject[el];
+  });
+
+  return newObj;
+};
 // Controller functions
 exports.getAllUsers = catchAsync(async (req, res) => {
   const allUsers = await User.find();
@@ -23,7 +32,11 @@ exports.updateMe = catchAsync(async (req, res, next) => {
     );
   }
 
-  const updatedUser = await User.findByIdAndUpdate(req.user.id, X, {});
+  const filteredUser = filterObj(req.body, 'name', 'email');
+  const updatedUser = await User.findByIdAndUpdate(req.user.id, filteredUser, {
+    new: true,
+    runValidators: true,
+  });
 });
 
 exports.addUser = (req, res) => {
