@@ -59,7 +59,6 @@ exports.protect = catchAsync(async (req, res, next) => {
   if (authHeaders && authHeaders.startsWith('Bearer')) {
     token = authHeaders.split(' ')[1];
   }
-  console.log(token);
   if (!token) {
     return next(
       new AppError('You are not logged in, please do so to continue', 401),
@@ -161,7 +160,7 @@ exports.resetPassword = catchAsync(async (req, res, next) => {
 exports.updatePassword = async (req, res, next) => {
   const user = await User.findById(req.user.id).select('+password');
 
-  if (!user.correctPass(req.body.passwordConfirm, user.password)) {
+  if (!user.correctPass(req.body.passwordCurrent, user.password)) {
     return next(new AppError('Incorrect password please try again', 401));
   }
 
