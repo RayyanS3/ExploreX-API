@@ -1,4 +1,5 @@
 const User = require('../models/userModel');
+const AppError = require('../utils/appError');
 const catchAsync = require('../utils/catchAsync');
 
 // Controller functions
@@ -11,6 +12,18 @@ exports.getAllUsers = catchAsync(async (req, res) => {
     data: { allUsers },
   });
 });
+
+exports.updateMe = (req, res, next) => {
+  if (req.body.password || req.body.passwordConfirm) {
+    return next(
+      new AppError(
+        'Please use the "/updatePassword" route to update password.',
+        400,
+      ),
+    );
+  }
+};
+
 exports.addUser = (req, res) => {
   res.status(500).json({
     status: 'error',
