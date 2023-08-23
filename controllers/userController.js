@@ -13,7 +13,7 @@ exports.getAllUsers = catchAsync(async (req, res) => {
   });
 });
 
-exports.updateMe = (req, res, next) => {
+exports.updateMe = catchAsync(async (req, res, next) => {
   if (req.body.password || req.body.passwordConfirm) {
     return next(
       new AppError(
@@ -22,7 +22,9 @@ exports.updateMe = (req, res, next) => {
       ),
     );
   }
-};
+
+  const updatedUser = await User.findByIdAndUpdate(req.user.id, X, {});
+});
 
 exports.addUser = (req, res) => {
   res.status(500).json({
