@@ -37,6 +37,11 @@ exports.updateMe = catchAsync(async (req, res, next) => {
     new: true,
     runValidators: true,
   });
+
+  res.status(200).json({
+    status: 'success',
+    message: 'data updated successfully',
+  });
 });
 
 exports.addUser = (req, res) => {
