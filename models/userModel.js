@@ -47,6 +47,7 @@ const userSchema = mongoose.Schema({
   },
 });
 
+// Middlewares
 userSchema.pre('save', async function (next) {
   if (!this.isModified('password')) {
     return next();
@@ -57,6 +58,12 @@ userSchema.pre('save', async function (next) {
   this.passwordConfirm = undefined;
 });
 
+userSchema.pre(/^find/, function (next) {
+  this.find({ active: { $ne: false } });
+  next();
+});
+
+// Instance methods
 userSchema.methods.correctPass = async function (userPass, DBPass) {
   return await bcrypt.compare(DBPass, userPass);
 };
