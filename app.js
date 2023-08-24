@@ -2,6 +2,8 @@
 const express = require('express');
 const morgan = require('morgan');
 const rateLimit = require('express-rate-limit');
+const xxs = require('xxs-clean');
+const mongoSanitize = require('express-mongo-sanitize');
 const helmet = require('helmet');
 const AppError = require('./utils/appError');
 const globalErrorHandler = require('./controllers/errorController');
@@ -16,6 +18,10 @@ const userRouter = require('./routes/userRoutes');
 
 // Secure HTTP headers
 app.use(helmet());
+
+// Data sanitization middlewares
+app.use(xxs());
+app.use(mongoSanitize());
 
 // Dev logging
 if (process.env.NODE_ENV === 'development') {
