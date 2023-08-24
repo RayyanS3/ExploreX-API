@@ -6,8 +6,12 @@ const authController = require('../controllers/authenticationController');
 
 router
   .route('/')
-  .get(authController.protect, reviewController.getAllReviews)
-  .post();
+  .get(reviewController.getAllReviews)
+  .post(
+    authController.protect,
+    authController.restrictTo('user'),
+    reviewController.createReview,
+  );
 
 // Export module
 module.exports = router;
