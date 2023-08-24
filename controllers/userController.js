@@ -45,6 +45,15 @@ exports.updateMe = catchAsync(async (req, res, next) => {
   });
 });
 
+exports.deleteMe = catchAsync(async (req, res, next) => {
+  const user = await User.findByIdAndUpdate(req.body.id, { active: false });
+  console.log(user);
+  res.status(204).json({
+    status: 'success',
+    data: null,
+  });
+});
+
 exports.addUser = (req, res) => {
   res.status(500).json({
     status: 'error',
