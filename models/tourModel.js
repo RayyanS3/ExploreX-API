@@ -135,6 +135,14 @@ tourSchema.pre(/^find/, function (next) {
   next();
 });
 
+tourSchema.pre(/^find/, function (next) {
+  this.populate({
+    path: 'guides',
+    select: '-__v -password',
+  });
+  next();
+});
+
 // Aggregate middleware
 tourSchema.pre('aggregate', function (next) {
   this.pipeline().unshift({ $match: { privateTour: { $ne: true } } });
