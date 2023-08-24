@@ -103,6 +103,12 @@ const tourSchema = mongoose.Schema(
         description: String,
       },
     ],
+    guides: [
+      {
+        type: mongoose.Schema.ObjectId,
+        ref: 'User',
+      },
+    ],
   },
   {
     toJSON: { virtuals: true },
