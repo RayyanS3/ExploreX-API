@@ -13,6 +13,7 @@ const app = express();
 // Router import
 const tourRouter = require('./routes/tourRoutes');
 const userRouter = require('./routes/userRoutes');
+const reviewRouter = require('./routes/reviewRoutes');
 
 // Global Middleware declerations
 
@@ -44,6 +45,7 @@ app.use(express.static('public'));
 
 app.use('/api/v1/tours', tourRouter);
 app.use('/api/v1/users', userRouter);
+app.use('/api/v1/review', reviewRouter);
 
 // Error handling all other routes - middleware
 app.all('*', (req, res, next) => {

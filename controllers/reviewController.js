@@ -13,3 +13,5 @@ exports.getAllReviews = catchAsync(async (req, res, next) => {
 
   next();
 });
+
+exports.createReview = catchAsync(async (req, res, next) => {});
