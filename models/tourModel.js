@@ -122,6 +122,13 @@ tourSchema.virtual('weeklyDuration').get(function () {
   return duration.toFixed(3);
 });
 
+// Virtual populate for reviews
+tourSchema.virtual('reviews', {
+  ref: 'Review',
+  foreignField: 'tour',
+  localField: '_id',
+});
+
 // Document middleware
 tourSchema.pre('save', function (next) {
   this.slug = slugify(this.name, { lower: true });
