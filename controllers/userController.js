@@ -13,15 +13,6 @@ const filterObj = (bodyObject, ...allowedFields) => {
   return newObj;
 };
 // Controller functions
-exports.getAllUsers = catchAsync(async (req, res) => {
-  const allUsers = await User.find();
-
-  res.status(200).json({
-    status: 'success',
-    userCount: allUsers.length,
-    data: { allUsers },
-  });
-});
 
 exports.updateMe = catchAsync(async (req, res, next) => {
   if (req.body.password || req.body.passwordConfirm) {
@@ -61,6 +52,8 @@ exports.addUser = (req, res) => {
       'This route is not implemented, please use /signup for creating new user',
   });
 };
+
+exports.getAllUsers = handlerFactory.getAll(User);
 exports.getUser = handlerFactory.getOne(User);
 exports.updateUser = handlerFactory.updateOne(User);
 exports.deleteUser = handlerFactory.deleteOne(User);
