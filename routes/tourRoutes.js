@@ -1,4 +1,5 @@
 const express = require('express');
+const reviewController = require('../controllers/reviewController');
 const tourController = require('../controllers/tourController');
 const authController = require('../controllers/authenticationController');
 
@@ -28,6 +29,15 @@ router
 router.route('/tour-stats').get(tourController.getToursStats);
 
 router.route('/monthly-plans/:year').get(tourController.getMonthlyPlans);
+
+// Nested routes
+router
+  .route('/:tourId/reviews')
+  .post(
+    authController.protect,
+    authController.restrictTo('user'),
+    reviewController.createReview,
+  );
 
 // Export module
 module.exports = router;
