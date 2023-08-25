@@ -49,23 +49,7 @@ exports.addTour = catchAsync(async (req, res, next) => {
     },
   });
 });
-exports.updateTour = catchAsync(async (req, res, next) => {
-  const tour = await Tour.findByIdAndUpdate(req.params.id, req.body, {
-    new: true,
-    runValidators: true,
-  });
-
-  if (!tour) {
-    return next(new AppError('Tour not found', 404));
-  }
-
-  res.status(200).json({
-    status: 'success',
-    data: {
-      tour: tour,
-    },
-  });
-});
+exports.updateTour = handlerFactory.updateOne(Tour);
 exports.deleteTour = handlerFactory.deleteOne(Tour);
 
 exports.getToursStats = catchAsync(async (req, res, next) => {
