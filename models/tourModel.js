@@ -1,6 +1,5 @@
 const mongoose = require('mongoose');
 const slugify = require('slugify');
-// const validator = require('validator');
 
 const tourSchema = mongoose.Schema(
   {
@@ -116,12 +115,6 @@ const tourSchema = mongoose.Schema(
   },
 );
 
-// Virtual weekly duration property
-tourSchema.virtual('weeklyDuration').get(function () {
-  const duration = this.duration / 7;
-  return duration.toFixed(3);
-});
-
 // Virtual populate for reviews
 tourSchema.virtual('reviews', {
   ref: 'Review',
@@ -132,7 +125,6 @@ tourSchema.virtual('reviews', {
 // Document middleware
 tourSchema.pre('save', function (next) {
   this.slug = slugify(this.name, { lower: true });
-  console.log(this.slug);
   next();
 });
 

@@ -39,7 +39,6 @@ exports.getTour = catchAsync(async (req, res, next) => {
     data: { tour },
   });
 });
-
 exports.addTour = catchAsync(async (req, res, next) => {
   const newTour = await Tour.create(req.body);
   res.status(201).json({
@@ -49,7 +48,6 @@ exports.addTour = catchAsync(async (req, res, next) => {
     },
   });
 });
-
 exports.updateTour = catchAsync(async (req, res, next) => {
   const tour = await Tour.findByIdAndUpdate(req.params.id, req.body, {
     new: true,
@@ -67,7 +65,6 @@ exports.updateTour = catchAsync(async (req, res, next) => {
     },
   });
 });
-
 exports.deleteTour = catchAsync(async (req, res, next) => {
   const tour = await Tour.findByIdAndDelete(req.params.id);
 
@@ -80,7 +77,6 @@ exports.deleteTour = catchAsync(async (req, res, next) => {
     message: 'selected tour deleted',
   });
 });
-
 exports.getToursStats = catchAsync(async (req, res, next) => {
   const stats = await Tour.aggregate([
     {
@@ -113,7 +109,6 @@ exports.getToursStats = catchAsync(async (req, res, next) => {
     },
   });
 });
-
 exports.getMonthlyPlans = catchAsync(async (req, res, next) => {
   const { year } = req.params;
 

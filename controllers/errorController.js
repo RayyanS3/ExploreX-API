@@ -40,7 +40,6 @@ const getErrorProd = (err, res) => {
       message: err.message,
     });
   } else {
-    console.log(err);
     res.status(500).json({
       status: 'error',
     });
