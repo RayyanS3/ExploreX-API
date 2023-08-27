@@ -45,5 +45,15 @@ reviewSchema.pre(/^find/, function (next) {
   next();
 });
 
+reviewSchema.statics.calcAvgRatings = function (tourId) {
+  this.aggregate([
+    {
+      $match: {
+        tour: tourId,
+      },
+    },
+  ]);
+};
+
 const Review = mongoose.model('Review', reviewSchema);
 module.exports = Review;
