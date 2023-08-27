@@ -36,7 +36,13 @@ router
 
 router.route('/tour-stats').get(tourController.getToursStats);
 
-router.route('/monthly-plans/:year').get(tourController.getMonthlyPlans);
+router
+  .route('/monthly-plans/:year')
+  .get(
+    authController.protect,
+    authController.restrictTo('admin', 'lead-guide'),
+    tourController.getMonthlyPlans,
+  );
 
 // Nested routes
 router.use('/:tourId/reviews', reviewRouter);
