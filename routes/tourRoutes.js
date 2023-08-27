@@ -8,13 +8,21 @@ const router = express.Router();
 // Main routes
 router
   .route('/')
-  .get(authController.protect, tourController.getAllTours)
-  .post(tourController.addTour);
+  .get(tourController.getAllTours)
+  .post(
+    authController.protect,
+    authController.restrictTo('admin', 'lead-guide'),
+    tourController.addTour,
+  );
 
 router
   .route('/:id')
   .get(tourController.getTour)
-  .patch(tourController.updateTour)
+  .patch(
+    authController.protect,
+    authController.restrictTo('admin', 'lead-guide'),
+    tourController.updateTour,
+  )
   .delete(
     authController.protect,
     authController.restrictTo('admin', 'lead-guide'),
