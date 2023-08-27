@@ -20,6 +20,8 @@ router.route('/updateUserData').patch(userController.updateMe);
 
 router.route('/deleteUser').delete(userController.deleteMe);
 
+router.use(authController.restrictTo('admin'));
+
 router.route('/').get(userController.getAllUsers).post(userController.addUser);
 
 router
