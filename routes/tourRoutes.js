@@ -5,47 +5,34 @@ const authController = require('../controllers/authenticationController');
 
 const router = express.Router();
 
-// Main routes
-router
-  .route('/')
-  .get(tourController.getAllTours)
-  .post(
-    authController.protect,
-    authController.restrictTo('admin', 'lead-guide'),
-    tourController.addTour,
-  );
-
-router
-  .route('/:id')
-  .get(tourController.getTour)
-  .patch(
-    authController.protect,
-    authController.restrictTo('admin', 'lead-guide'),
-    tourController.updateTour,
-  )
-  .delete(
-    authController.protect,
-    authController.restrictTo('admin', 'lead-guide'),
-    tourController.deleteTour,
-  );
-
-// Secondary routes
+// Unprotected routes
 router
   .route('/top-5-tours')
   .get(tourController.aliasTopTours, tourController.getAllTours);
 
 router.route('/tour-stats').get(tourController.getToursStats);
 
-router
-  .route('/monthly-plans/:year')
-  .get(
-    authController.protect,
-    authController.restrictTo('admin', 'lead-guide'),
-    tourController.getMonthlyPlans,
-  );
+router.route('/').get(tourController.getAllTours);
 
 // Nested routes
 router.use('/:tourId/reviews', reviewRouter);
+
+// Protected routes
+
+router.use(
+  authController.protect,
+  authController.restrictTo('admin', 'lead-guide'),
+);
+
+router.route('/').post(tourController.addTour);
+
+router
+  .route('/:id')
+  .get(tourController.getTour)
+  .patch(tourController.updateTour)
+  .delete(tourController.deleteTour);
+
+router.route('/monthly-plans/:year').get(tourController.getMonthlyPlans);
 
 // Export module
 module.exports = router;
