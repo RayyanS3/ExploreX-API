@@ -12,30 +12,45 @@ router
 
 router.route('/tour-stats').get(tourController.getToursStats);
 
-router.route('/').get(tourController.getAllTours);
-
 router
-  .route('/tours-nearme/:distance/centre/:latlng/units/:units')
+  .route('/tours-nearme/:distance/centre/:latlng/units/:unit')
   .get(tourController.getToursNearby);
+
 // Nested routes
 router.use('/:tourId/reviews', reviewRouter);
 
 // Protected routes
 
-router.use(
-  authController.protect,
-  authController.restrictTo('admin', 'lead-guide'),
-);
-
-router.route('/').post(tourController.addTour);
+router
+  .route('/')
+  .get(tourController.getAllTours)
+  .post(
+    authController.protect,
+    authController.restrictTo('admin', 'lead-guide'),
+    tourController.addTour,
+  );
 
 router
   .route('/:id')
   .get(tourController.getTour)
-  .patch(tourController.updateTour)
-  .delete(tourController.deleteTour);
+  .patch(
+    authController.protect,
+    authController.restrictTo('admin', 'lead-guide'),
+    tourController.updateTour,
+  )
+  .delete(
+    authController.protect,
+    authController.restrictTo('admin', 'lead-guide'),
+    tourController.deleteTour,
+  );
 
-router.route('/monthly-plans/:year').get(tourController.getMonthlyPlans);
+router
+  .route('/monthly-plans/:year')
+  .get(
+    authController.protect,
+    authController.restrictTo('admin', 'lead-guide'),
+    tourController.getMonthlyPlans,
+  );
 
 // Export module
 module.exports = router;

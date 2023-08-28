@@ -1,4 +1,5 @@
 const Tour = require('../models/tourModel');
+const AppError = require('../utils/appError');
 const catchAsync = require('../utils/catchAsync');
 const handlerFactory = require('./handlerFactory');
 
@@ -96,4 +97,23 @@ exports.getMonthlyPlans = catchAsync(async (req, res, next) => {
     },
   });
 });
-exports.getToursNearby = catchAsync(async (req, res, next) => {});
+exports.getToursNearby = catchAsync(async (req, res, next) => {
+  const { distance, latlng, unit } = req.params;
+  const [lat, lng] = latlng.split(',');
+
+  if (!lat || !lng) {
+    return next(
+      new AppError(
+        'Please provide latitude and longitude in format: "LAT,LONG"',
+        400,
+      ),
+    );
+  }
+  console.log(distance, lat, lng, unit);
+
+  res.status(200).json({
+    status: 'success',
+  });
+
+  next();
+});
