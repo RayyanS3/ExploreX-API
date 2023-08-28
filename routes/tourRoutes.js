@@ -14,6 +14,9 @@ router.route('/tour-stats').get(tourController.getToursStats);
 
 router.route('/').get(tourController.getAllTours);
 
+router
+  .route('/tours-nearme/:distance/centre/:latlng/units/:units')
+  .get(tourController.getToursNearby);
 // Nested routes
 router.use('/:tourId/reviews', reviewRouter);
 

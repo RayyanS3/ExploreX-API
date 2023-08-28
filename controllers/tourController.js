@@ -96,3 +96,4 @@ exports.getMonthlyPlans = catchAsync(async (req, res, next) => {
     },
   });
 });
+exports.getToursNearby = catchAsync(async (req, res, next) => {});
