@@ -101,6 +101,16 @@ exports.getToursNearby = catchAsync(async (req, res, next) => {
   const { distance, latlng, unit } = req.params;
   const [lat, lng] = latlng.split(',');
 
+  if (unit != 'mi' || unit != 'km') {
+    return next(
+      new AppError(
+        'Please input valid distance units. "mi" for miles and "km" for kilometers',
+        400,
+      ),
+    );
+  }
+  const radius = unit === 'mi' ? distance / 3963.2 : distance / 6378.1;
+
   if (!lat || !lng) {
     return next(
       new AppError(
@@ -109,7 +119,6 @@ exports.getToursNearby = catchAsync(async (req, res, next) => {
       ),
     );
   }
-  console.log(distance, lat, lng, unit);
 
   res.status(200).json({
     status: 'success',
