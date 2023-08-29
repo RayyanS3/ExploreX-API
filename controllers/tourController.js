@@ -126,3 +126,5 @@ exports.getToursNearby = catchAsync(async (req, res, next) => {
 
   next();
 });
+
+exports.getDistances = (req, res, next) => {};

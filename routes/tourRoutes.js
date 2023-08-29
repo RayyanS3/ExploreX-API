@@ -12,9 +12,12 @@ router
 
 router.route('/tour-stats').get(tourController.getToursStats);
 
+// Geospatial routes
 router
   .route('/tours-nearme/:distance/centre/:latlng/units/:unit')
   .get(tourController.getToursNearby);
+
+router.route('/distances/:latlng/units/:unit').get(tourController.getDistances);
 
 // Nested routes
 router.use('/:tourId/reviews', reviewRouter);
