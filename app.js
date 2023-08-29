@@ -10,6 +10,8 @@ const globalErrorHandler = require('./controllers/errorController');
 
 const app = express();
 
+app.set('view engine', 'pug');
+
 // Router import
 const tourRouter = require('./routes/tourRoutes');
 const userRouter = require('./routes/userRoutes');
