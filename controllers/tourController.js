@@ -127,4 +127,16 @@ exports.getToursNearby = catchAsync(async (req, res, next) => {
   next();
 });
 
-exports.getDistances = (req, res, next) => {};
+exports.getDistances = (req, res, next) => {
+  const { latlng, unit } = req.params;
+  const [lat, lng] = latlng.split(',');
+
+  if (!lat || !lng) {
+    return next(
+      new AppError(
+        'Please provide latitude and longitude in format: "LAT,LONG"',
+        400,
+      ),
+    );
+  }
+};
