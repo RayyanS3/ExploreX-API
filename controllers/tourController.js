@@ -101,14 +101,6 @@ exports.getToursNearby = catchAsync(async (req, res, next) => {
   const { distance, latlng, unit } = req.params;
   const [lat, lng] = latlng.split(',');
 
-  if (unit != 'mi' || unit != 'km') {
-    return next(
-      new AppError(
-        'Please input valid distance units. "mi" for miles and "km" for kilometers',
-        400,
-      ),
-    );
-  }
   const radius = unit === 'mi' ? distance / 3963.2 : distance / 6378.1;
 
   if (!lat || !lng) {
@@ -120,8 +112,16 @@ exports.getToursNearby = catchAsync(async (req, res, next) => {
     );
   }
 
+  const tours = await Tour.find({
+    startLocation: { $geoWithin: { $centerSphere: [[lng, lat], radius] } },
+  });
+
   res.status(200).json({
     status: 'success',
+    results: tours.length,
+    data: {
+      tours,
+    },
   });
 
   next();
