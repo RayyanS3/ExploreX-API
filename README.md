@@ -1,1 +1,1 @@
-# Globe Trotter Tours
+# ExploreX Tours
