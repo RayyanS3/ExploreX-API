@@ -9,15 +9,12 @@ html
         title ExploreX | Exciting tours for adventurous people
     body 
         // Base template header
-        header 
-            nav.nav.nav--tours 
-                a.nav__el(href="#") All tours
-            .header__logo
-                img(src="img/logo-white.png" alt="Natours logo")
-            nav.nav.nav--user 
-                a.nav__el(href="#") My bookings 
-                a.nav__el(href="#")
-                    img.nav__user-img(src="img/user.jpg" alt="User photo") 
-                    span Jonas 
-                button.nav__el Log in 
-                button.nav__el.nav__el--cta Sign up       
+        include header
+
+        // Base template content
+        section.overview   
+            h1= tour 
+            h3= user 
+
+        // Base template footer
+        include footer 

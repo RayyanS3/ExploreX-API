@@ -47,7 +47,10 @@ app.use(express.json({ limit: '10kb' }));
 
 // Serve static files
 app.get('/', (req, res) => {
-  res.status(200).render('base');
+  res.status(200).render('base', {
+    tour: 'The Forest Hiker',
+    user: 'Rayyan Suhail',
+  });
 });
 
 app.use('/api/v1/tours', tourRouter);
