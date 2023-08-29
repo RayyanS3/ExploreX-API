@@ -1,4 +1,5 @@
 // NPM/Native modules import
+const path = require('path');
 const express = require('express');
 const morgan = require('morgan');
 const rateLimit = require('express-rate-limit');
@@ -11,6 +12,7 @@ const globalErrorHandler = require('./controllers/errorController');
 const app = express();
 
 app.set('view engine', 'pug');
+app.set('views', path.join(__dirname, 'views'));
 
 // Router import
 const tourRouter = require('./routes/tourRoutes');
@@ -43,7 +45,7 @@ app.use('/api', limiter);
 app.use(express.json({ limit: '10kb' }));
 
 // Serve static files
-app.use(express.static('public'));
+app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/api/v1/tours', tourRouter);
 app.use('/api/v1/users', userRouter);
