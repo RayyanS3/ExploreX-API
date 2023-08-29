@@ -20,6 +20,7 @@ const userRouter = require('./routes/userRoutes');
 const reviewRouter = require('./routes/reviewRoutes');
 
 // Global Middleware declerations
+app.use(express.static(path.join(__dirname, 'public')));
 
 // Secure HTTP headers
 app.use(helmet());
@@ -45,7 +46,9 @@ app.use('/api', limiter);
 app.use(express.json({ limit: '10kb' }));
 
 // Serve static files
-app.use(express.static(path.join(__dirname, 'public')));
+app.get('/', (req, res) => {
+  res.status(200).render('base');
+});
 
 app.use('/api/v1/tours', tourRouter);
 app.use('/api/v1/users', userRouter);
