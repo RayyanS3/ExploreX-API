@@ -8,5 +8,7 @@ mapboxgl.accessToken =
 
 var map = new mapboxgl.Map({
   container: 'map',
-  style: 'mapbox://styles/mapbox/streets-v11',
+  style: 'mapbox://styles/rayyan-03/cllyf9lvt01ik01magppd4y11',
 });
+
+const bounds = new mapboxgl.LatLngBounds();
