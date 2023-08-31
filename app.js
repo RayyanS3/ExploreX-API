@@ -4,8 +4,8 @@ const express = require('express');
 const morgan = require('morgan');
 const rateLimit = require('express-rate-limit');
 const xxs = require('xss-clean');
-const mongoSanitize = require('express-mongo-sanitize');
 const helmet = require('helmet');
+const mongoSanitize = require('express-mongo-sanitize');
 const AppError = require('./utils/appError');
 const globalErrorHandler = require('./controllers/errorController');
 
@@ -23,8 +23,15 @@ const reviewRouter = require('./routes/reviewRoutes');
 // Global Middleware declerations
 app.use(express.static(path.join(__dirname, 'public')));
 
-// Secure HTTP headers
 app.use(helmet());
+
+app.use((req, res, next) => {
+  res.setHeader(
+    'Content-Security-Policy',
+    "script-src 'self' https://cdnjs.cloudflare.com",
+  );
+  next();
+});
 
 // Data sanitization middlewares
 app.use(xxs());
