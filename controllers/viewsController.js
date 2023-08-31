@@ -29,8 +29,6 @@ exports.getTour = catchAsync(async (req, res) => {
 });
 
 exports.loginUser = catchAsync(async (req, res, next) => {
-  console.log('WORKING');
-
   res.status(200).render('login', {
     title: 'Login',
   });
