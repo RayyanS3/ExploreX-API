@@ -4,3 +4,4 @@ dev-data
 package*
 .eslintrc.json
 config.env
+public
