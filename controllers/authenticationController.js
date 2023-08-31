@@ -181,3 +181,22 @@ exports.updatePassword = async (req, res, next) => {
 
   createUserToken(user, 200, res);
 };
+
+exports.loggedIn = catchAsync(async (req, res, next) => {
+  if (req.cookies.jwt) {
+    const decodedToken = await promisify(jwt.verify)(
+      req.cookies.jwt,
+      process.env.JWT_SECRET,
+    );
+
+    // Check if user exists
+    const user = await User.findById(decodedToken.id);
+    if (!user) {
+      return next();
+    }
+
+    req.locals.user = user;
+    next();
+  }
+  next();
+});
