@@ -11,4 +11,27 @@ var map = new mapboxgl.Map({
   style: 'mapbox://styles/rayyan-03/cllyf9lvt01ik01magppd4y11',
 });
 
-const bounds = new mapboxgl.LatLngBounds();
+const bounds = new mapboxgl.LngLatBounds();
+
+locations.forEach((loc) => {
+  const el = document.createElement('div');
+  el.className = 'marker';
+
+  new mapboxgl.Marker({
+    element: el,
+    anchor: 'bottom',
+  })
+    .setLngLat(loc.coordinates)
+    .addTo(map);
+
+  bounds.extend(loc.coordinates);
+});
+
+map.fitBounds(bounds, {
+  padding: {
+    top: 200,
+    bottom: 200,
+    left: 100,
+    right: 100,
+  },
+});
