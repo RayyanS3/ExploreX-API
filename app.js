@@ -7,6 +7,7 @@ const xxs = require('xss-clean');
 const helmet = require('helmet');
 const mongoSanitize = require('express-mongo-sanitize');
 const AppError = require('./utils/appError');
+const cookieParser = require('cookie-parser');
 const globalErrorHandler = require('./controllers/errorController');
 
 const app = express();
@@ -52,6 +53,12 @@ app.use('/api', limiter);
 
 // Express options
 app.use(express.json({ limit: '10kb' }));
+app.use(cookieParser());
+
+app.use((req, res, next) => {
+  console.log(req.cookies);
+  next();
+});
 
 // Serve static files
 
