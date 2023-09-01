@@ -182,7 +182,7 @@ exports.updatePassword = async (req, res, next) => {
   createUserToken(user, 200, res);
 };
 
-exports.loggedIn = catchAsync(async (req, res, next) => {
+exports.isLoggedIn = catchAsync(async (req, res, next) => {
   if (req.cookies.jwt) {
     const decodedToken = await promisify(jwt.verify)(
       req.cookies.jwt,
@@ -195,7 +195,7 @@ exports.loggedIn = catchAsync(async (req, res, next) => {
       return next();
     }
 
-    req.locals.user = user;
+    res.locals.user = user;
     next();
   }
   next();
