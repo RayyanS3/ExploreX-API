@@ -16,13 +16,19 @@ const handleValidationError = (err) => {
   return new AppError(message, 400);
 };
 
-const getErrorDev = (err, res) => {
-  res.status(err.statusCode).json({
-    status: err.status,
-    message: err.message,
-    err: err,
-    stack: err.stack,
-  });
+const getErrorDev = (err, req, res) => {
+  if (req.originalUrl.startsWith('/api')) {
+    res.status(err.statusCode).json({
+      status: err.status,
+      message: err.message,
+      err: err,
+      stack: err.stack,
+    });
+  } else {
+    res.status(err.status).render('error', {
+      title: 'Something went wrong!',
+    });
+  }
 };
 
 const jwtTokenErrorHandler = () => {
