@@ -25,7 +25,7 @@ const getErrorDev = (err, req, res) => {
       stack: err.stack,
     });
   } else {
-    res.status(err.status).render('error', {
+    res.status(err.statusCode).render('error', {
       title: 'Something went wrong!',
       msg: err.message,
     });
@@ -40,7 +40,7 @@ const jwtExpiredErrorHandler = () => {
   return new AppError('Expired token, please try logging in again', 401);
 };
 
-const getErrorProd = (err, res) => {
+const getErrorProd = (err, req, res) => {
   if (err.isOperational) {
     res.status(err.statusCode).json({
       status: err.status,
@@ -58,7 +58,7 @@ module.exports = (err, req, res, next) => {
   err.statusCode = err.statusCode || 500;
 
   if (process.env.NODE_ENV === 'development') {
-    getErrorDev(err, res);
+    getErrorDev(err, req, res);
   } else if (process.env.NODE_ENV === 'production') {
     let errorCopy = { ...err };
     // Cast errors - invalid id
