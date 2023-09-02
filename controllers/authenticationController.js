@@ -183,22 +183,26 @@ exports.updatePassword = async (req, res, next) => {
 };
 
 exports.isLoggedIn = catchAsync(async (req, res, next) => {
-  if (req.cookies.jwt) {
-    const decodedToken = await promisify(jwt.verify)(
-      req.cookies.jwt,
-      process.env.JWT_SECRET,
-    );
+  try {
+    if (req.cookies.jwt) {
+      const decodedToken = await promisify(jwt.verify)(
+        req.cookies.jwt,
+        process.env.JWT_SECRET,
+      );
 
-    // Check if user exists
-    const user = await User.findById(decodedToken.id);
-    if (!user) {
+      // Check if user exists
+      const user = await User.findById(decodedToken.id);
+      if (!user) {
+        return next();
+      }
+
+      res.locals.user = user;
       return next();
     }
-
-    res.locals.user = user;
+    next();
+  } catch (err) {
     return next();
   }
-  next();
 });
 
 exports.logout = (req, res) => {
