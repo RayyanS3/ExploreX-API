@@ -18,18 +18,17 @@ const handleValidationError = (err) => {
 
 const getErrorDev = (err, req, res) => {
   if (req.originalUrl.startsWith('/api')) {
-    res.status(err.statusCode).json({
+    return res.status(err.statusCode).json({
       status: err.status,
       message: err.message,
       err: err,
       stack: err.stack,
     });
-  } else {
-    res.status(err.statusCode).render('error', {
-      title: 'Something went wrong!',
-      msg: err.message,
-    });
   }
+  return res.status(err.statusCode).render('error', {
+    title: 'Something went wrong!',
+    msg: err.message,
+  });
 };
 
 const jwtTokenErrorHandler = () => {
@@ -41,16 +40,29 @@ const jwtExpiredErrorHandler = () => {
 };
 
 const getErrorProd = (err, req, res) => {
-  if (err.isOperational) {
-    res.status(err.statusCode).json({
-      status: err.status,
-      message: err.message,
-    });
-  } else {
-    res.status(500).json({
+  if (req.originalUrl.startsWith('/api')) {
+    if (err.isOperational) {
+      return res.status(err.statusCode).json({
+        status: err.status,
+        message: err.message,
+      });
+    }
+    return res.status(500).json({
       status: 'error',
+      message: 'Something went wrong!',
     });
   }
+
+  if (err.isOperational) {
+    return res.status(err.statusCode).render('error', {
+      title: 'Something went wrong!',
+      msg: err.message,
+    });
+  }
+  return res.status(500).json({
+    status: 'error',
+    msg: 'Something went wrong!',
+  });
 };
 
 module.exports = (err, req, res, next) => {
@@ -61,6 +73,7 @@ module.exports = (err, req, res, next) => {
     getErrorDev(err, req, res);
   } else if (process.env.NODE_ENV === 'production') {
     let errorCopy = { ...err };
+    errorCopy.message = err.message;
     // Cast errors - invalid id
     if (errorCopy.kind === 'ObjectId') {
       errorCopy = handleCastErrorDB(errorCopy);
@@ -83,6 +96,6 @@ module.exports = (err, req, res, next) => {
     if (errorCopy.message === 'jwt expired') {
       errorCopy = jwtExpiredErrorHandler();
     }
-    getErrorProd(errorCopy, res);
+    getErrorProd(errorCopy, req, res);
   }
 };
