@@ -27,6 +27,7 @@ const getErrorDev = (err, req, res) => {
   } else {
     res.status(err.status).render('error', {
       title: 'Something went wrong!',
+      msg: err.message,
     });
   }
 };
