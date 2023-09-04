@@ -9,6 +9,7 @@ const mongoSanitize = require('express-mongo-sanitize');
 const AppError = require('./utils/appError');
 const cookieParser = require('cookie-parser');
 const globalErrorHandler = require('./controllers/errorController');
+const compression = require('compression');
 
 const app = express();
 
@@ -37,6 +38,7 @@ app.use((req, res, next) => {
 // Data sanitization middlewares
 app.use(xxs());
 app.use(mongoSanitize());
+app.use(compression());
 
 // Dev logging
 if (process.env.NODE_ENV === 'development') {
