@@ -173,7 +173,6 @@ exports.resetPassword = catchAsync(async (req, res, next) => {
 
 exports.updatePassword = catchAsync(async (req, res, next) => {
   const user = await User.findById(req.user.id).select('+password');
-  console.log(user.password, req.body.passwordCurrent);
   if (!(await bcrypt.compare(req.body.passwordCurrent, user.password))) {
     return next(new AppError('Incorrect password please try again', 401));
   }

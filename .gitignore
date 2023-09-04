@@ -5,3 +5,4 @@ package*
 .eslintrc.json
 config.env
 public
+.cache
