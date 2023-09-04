@@ -1,5 +1,6 @@
 const { promisify } = require('util');
 const crypto = require('crypto');
+const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const catchAsync = require('../utils/catchAsync');
 const AppError = require('../utils/appError');
@@ -170,10 +171,10 @@ exports.resetPassword = catchAsync(async (req, res, next) => {
   next();
 });
 
-exports.updatePassword = async (req, res, next) => {
+exports.updatePassword = catchAsync(async (req, res, next) => {
   const user = await User.findById(req.user.id).select('+password');
 
-  if (!user.correctPass(req.body.passwordCurrent, user.password)) {
+  if (!(await bcrypt.compare(user.password, req.body.password))) {
     return next(new AppError('Incorrect password please try again', 401));
   }
 
@@ -182,7 +183,7 @@ exports.updatePassword = async (req, res, next) => {
   await user.save();
 
   createUserToken(user, 200, res);
-};
+});
 
 exports.isLoggedIn = catchAsync(async (req, res, next) => {
   try {
