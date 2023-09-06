@@ -2,14 +2,14 @@
 const path = require('path');
 const express = require('express');
 const morgan = require('morgan');
+const cookieParser = require('cookie-parser');
+const compression = require('compression');
 const rateLimit = require('express-rate-limit');
 const xxs = require('xss-clean');
 const helmet = require('helmet');
 const mongoSanitize = require('express-mongo-sanitize');
 const AppError = require('./utils/appError');
-const cookieParser = require('cookie-parser');
 const globalErrorHandler = require('./controllers/errorController');
-const compression = require('compression');
 
 const app = express();
 
