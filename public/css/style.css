@@ -146,6 +146,14 @@ body {
   text-transform: uppercase;
   font-weight: 300;
 }
+
+.heading-tertirary2 {
+  font-size: 1.85rem;
+  color: #28b487;
+  text-transform: uppercase;
+  font-weight: 600;
+}
+
 .heading-primary span,
 .heading-tertirary span {
   padding: 1rem 1.5rem;
