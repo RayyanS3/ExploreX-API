@@ -26,7 +26,7 @@ mongoose
   .then(() => console.log('DB CONNECTION SUCCESSFUL'));
 
 // Server start
-const port = 8000 || process.env.PORT;
+const port = process.env.PORT || 8000;
 const server = index.listen(port, () => {
   console.log(`Server started on port ${port}`);
 });
